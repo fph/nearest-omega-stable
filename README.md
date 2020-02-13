@@ -12,7 +12,7 @@ Example:
     >> C = nearest_stable_real(A);     # nearest Hurwitz stable in R^(nxn)
     >> D = nearest_stable_complex(A);  # nearest Hurwitz stable in C^(nxn)
 
-It may seem that the computed matrices do not respect the constraints, e.g.,
+It may seem that the computed solutions do not respect the constraints, e.g.,
 
     >> eig(B)
     ans =
@@ -22,7 +22,7 @@ It may seem that the computed matrices do not respect the constraints, e.g.,
        4.8200e-01 - 1.2719e-04i
        4.8187e-01 + 0.0000e+00i
 
-does not have computed real eigenvalues. However, this is due to round-off errors. The fourth and fifth output value contain a Schur decomposition of B, which reveals the eigenvalues with better accuracy.
+does not have computed real eigenvalues. However, this is only due to round-off errors: the matrix B is at a distance comparable with machine precision from one with real eigenvalues. The fourth and fifth output value provide a Schur decomposition of the solution:
 
     >> [B, ~, ~, Q, T] = nearest_real_eigenvalues(A)
     B =
@@ -47,6 +47,6 @@ does not have computed real eigenvalues. However, this is due to round-off error
     ans =
          0
 
-(Indeed, it is consistent with eigenvalue perturbation theory that an eigenvalue of multiplicity 4 is computed with accuracy only approx. 1e-4.)
+One can see in this example that T does indeed have real eigenvalues (including, in particular, one with multiplicity 4). It is consistent with eigenvalue perturbation theory that when one forms the product Q*T*Q' these eigenvalues are affected by perturbations of magnitude eps^(1/4) \approx 10^(-4).
 
-The second and third output contain diagnostics (objective function and time after each iteration) in the same format as those produced by the code on http://bit.ly/NearestStableMatrix2 by N. Gillis.
+The second and third output of the functions contain diagnostics in the same format as those produced by the code on http://bit.ly/NearestStableMatrix2 by N. Gillis (objective function and time after each iteration).
