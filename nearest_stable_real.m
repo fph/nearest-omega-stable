@@ -1,4 +1,4 @@
-function [S, e, t, x,U] = nearest_stable_real(M, maxiter, timemax)
+function [S, e, t, x, U] = nearest_stable_real(M, maxiter, timemax)
 
 % Computes the nearest real Hurwitz stable matrix to a real matrix A (or at least a local minimum)
 %

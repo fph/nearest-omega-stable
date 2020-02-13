@@ -1,4 +1,4 @@
-function [S, xcost, x] = nearest_stable_complex(M, maxiter, timemax)
+function [S, e, t, x, U] = nearest_stable_complex(M, maxiter, timemax)
 
 % Computes the nearest complex Hurwitz stable matrix to a matrix A (or at least a local minimum)
 %
@@ -32,4 +32,9 @@ warning('off', 'manopt:getHessian:approx');
 options.tolgradnorm = 1e-12;
 [x, xcost, info, options] = trustregions(problem, [], options);
 
-S = x*stabletriu(x'*M*x)*x';
+U = stabletriu(x'*M*x);
+S = x*U*x';
+
+infotable = struct2table(info);
+e = sqrt(infotable.cost);
+t = infotable.time;
