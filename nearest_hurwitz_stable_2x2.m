@@ -1,5 +1,5 @@
-function [S, dist2] = nearest_stable_2x2(M)
-% produces the nearest stable matrix to a given 1x1 or 2x2 matrix
+function [S, dist2] = nearest_hurwitz_stable_2x2(M)
+% compute the nearest real Hurwitz stable matrix to a given 1x1 or 2x2 matrix
 
 if size(M) == [1,1]
     S = M - max(0, real(M));

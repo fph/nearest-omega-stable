@@ -1,11 +1,15 @@
-function [U, L] = real_decomposition(M, f);
+function [U, L] = real_decomposition(M, f)
 % computes a M = L+U decomposition with eigenvalues of U in a prescribed
 % location
 %
-% f is a function that 'splits' a 1x1 or 2x2 block into S + difference
+% f is a function that computes the projection for 1x1 or 2x2 blocks
 
-if not(exist('f', 'var'))
-    f = @nearest_stable_2x2;
+if not(exist('f', 'var')) || (ischar(f) && strcmp(f, 'hurwitz'))
+    f = @nearest_hurwitz_stable_2x2;
+end
+
+if ischar(f) && strcmp(f, 'schur')
+    f = @nearest_schur_stable_2x2;
 end
     
 U = triu(M);

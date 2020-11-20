@@ -1,20 +1,30 @@
-function [U, L] = real_decomposition(M, f);
+function [U, L] = complex_decomposition(M, f)
 % computes a M = L+U decomposition with eigenvalues of U in a prescribed
 % location
 %
-% f is a function that 'splits' a 1x1 or 2x2 block into S + difference
+% f is the projection function on Omega
 
-if not(exist('f', 'var'))
-    f = @nearest_stable_2x2;
+if not(exist('f', 'var')) || (ischar(f) && strcmp(f, 'hurwitz'))
+    f = @(x) x - max(real(x), 0);
 end
-    
-U = triu(M);
-for i = 1:2:length(M)
-    if i == length(M)
-        I = i;
+
+function y = schur_f(x)
+    if abs(x) <= 1
+        y = x;
     else
-        I = [i, i+1];
+        y = x / abs(x);
     end
-    U(I,I) = f(M(I,I));
 end
-L = M - U;
+
+if ischar(f) && strcmp(f, 'schur')
+    f = @schur_f;
+end
+
+n = length(M);
+L = tril(M,-1);
+U = triu(M, 1);
+for i = 1:n
+    U(i,i) = f(M(i,i));
+    L(i,i) = M(i,i) - U(i,i);
+end
+end
