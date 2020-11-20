@@ -9,8 +9,8 @@ Example:
     >> rng(0)
     >> A = randn(5);
     >> B = nearest_real_eigenvalues(A);
-    >> C = nearest_stable_real(A);     # nearest Hurwitz stable in R^(nxn)
-    >> D = nearest_stable_complex(A);  # nearest Hurwitz stable in C^(nxn)
+    >> C = nearest_stable_real(A, 'hurwitz');   # nearest Hurwitz stable in R^(nxn)
+    >> D = nearest_stable_complex(A, 'schur');  # nearest Schur stable in C^(nxn)
 
 It may seem that the computed solutions do not respect the constraints, e.g.,
 
@@ -49,4 +49,5 @@ does not have computed real eigenvalues. However, this is only due to round-off 
 
 One can see in this example that T does indeed have real eigenvalues (including, in particular, one with multiplicity 4). It is consistent with eigenvalue perturbation theory that when one forms the product Q*T*Q' these eigenvalues are affected by perturbations of magnitude eps^(1/4) \approx 10^(-4).
 
-The second and third output of the functions contain diagnostics in the same format as those produced by the code on http://bit.ly/NearestStableMatrix2 by N. Gillis (objective function and time after each iteration).
+The second and third output of the functions contain diagnostics in the same format as those produced by the code on http://bit.ly/NearestStableMatrix2 by N. Gillis (objective function and time after each iteration). 
+(Note that their corresponding code for the Schur case returns squared norms rather than norms in `e`.)
